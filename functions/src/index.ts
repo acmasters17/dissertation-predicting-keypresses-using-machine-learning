@@ -8,7 +8,18 @@ export const createNewProfileForComputerName = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string } = JSON.parse(request.body);
+    const requestBody: { id?: string; secret?: string } = JSON.parse(
+      request.body
+    );
+    //Check Secret
+    if (
+      requestBody.secret === undefined ||
+      requestBody.secret !== cloudSecret
+    ) {
+      //unauthorised
+      response.sendStatus(403);
+      return;
+    }
 
     //Check Request is valid
     if (!requestBody.id) {
@@ -32,7 +43,18 @@ export const getShouldBeStoringKeyPressData = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string } = JSON.parse(request.body);
+    const requestBody: { id?: string; secret?: string } = JSON.parse(
+      request.body
+    );
+    //Check Secret
+    if (
+      requestBody.secret === undefined ||
+      requestBody.secret !== cloudSecret
+    ) {
+      //unauthorised
+      response.sendStatus(403);
+      return;
+    }
 
     //Check Request is valid
     if (!requestBody.id) {
@@ -57,9 +79,18 @@ export const setShouldBeStoringKeyPressData = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string; newStatus?: boolean } = JSON.parse(
-      request.body
-    );
+    const requestBody: { id?: string; newStatus?: boolean; secret?: string } =
+      JSON.parse(request.body);
+
+    //Check Secret
+    if (
+      requestBody.secret === undefined ||
+      requestBody.secret !== cloudSecret
+    ) {
+      //unauthorised
+      response.sendStatus(403);
+      return;
+    }
 
     //Check Request is valid
     if (!requestBody.id || requestBody.newStatus === undefined) {
@@ -98,9 +129,21 @@ export const storeKeyPressDataForComputerName = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string; newKeypressData?: any[] } = JSON.parse(
-      request.body
-    );
+    const requestBody: {
+      id?: string;
+      newKeypressData?: any[];
+      secret?: string;
+    } = JSON.parse(request.body);
+
+    //Check Secret
+    if (
+      requestBody.secret === undefined ||
+      requestBody.secret !== cloudSecret
+    ) {
+      //unauthorised
+      response.sendStatus(403);
+      return;
+    }
 
     //Check Request is valid
     if (!requestBody.id || requestBody.newKeypressData === undefined) {
