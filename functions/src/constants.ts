@@ -1,0 +1,1 @@
+const collectionName = "computers_test"
