@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as moment from "moment";
+import { cloudSecret, collectionName, keyPressDataEntry } from "./constants";
 admin.initializeApp();
 
 // Creates a new document for a specified id - contains an active field used to control storing of data
@@ -8,9 +9,8 @@ export const createNewProfileForComputerName = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string; secret?: string } = JSON.parse(
-      request.body
-    );
+    const requestBody: { id?: string; secret?: string } = request.body;
+
     //Check Secret
     if (
       requestBody.secret === undefined ||
@@ -43,9 +43,8 @@ export const getShouldBeStoringKeyPressData = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string; secret?: string } = JSON.parse(
-      request.body
-    );
+    const requestBody: { id?: string; secret?: string } = request.body;
+
     //Check Secret
     if (
       requestBody.secret === undefined ||
@@ -79,8 +78,11 @@ export const setShouldBeStoringKeyPressData = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: { id?: string; newStatus?: boolean; secret?: string } =
-      JSON.parse(request.body);
+    let requestBody: { id?: string; newStatus?: boolean; secret?: string } = {};
+
+    requestBody.id = request.body.id;
+    requestBody.newStatus = request.body.newStatus === "true" ? true : false;
+    requestBody.secret = request.body.secret;
 
     //Check Secret
     if (
@@ -100,14 +102,17 @@ export const setShouldBeStoringKeyPressData = functions.https.onRequest(
 
     if (requestBody.newStatus === true) {
       //setting it to active so create a new session
-      const sessionStart = moment().toISOString();
+      const sessionStart = moment().format("DD-MM-YYYY_HH:mm:ss");
+      const newSessionName = `keypressData_${sessionStart}`;
       await firestore
         .collection(collectionName)
         .doc(requestBody.id)
         .update({
           active: requestBody.newStatus,
           activeSession: sessionStart,
-          [`keypressData_${sessionStart}`]: [],
+          [newSessionName]: [
+            { keyPressed: "START SESSION", timeStamp: sessionStart },
+          ],
         });
     } else {
       //close the session
@@ -129,11 +134,16 @@ export const storeKeyPressDataForComputerName = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
 
-    const requestBody: {
+    let requestBody: {
       id?: string;
-      newKeypressData?: any[];
+      newKeypressData: keyPressDataEntry[];
       secret?: string;
-    } = JSON.parse(request.body);
+    } = {newKeypressData: []};
+
+    requestBody.id = request.body.id;
+    requestBody.secret = request.body.secret;
+
+    requestBody.newKeypressData = JSON.parse(request.body.newKeypressData) as keyPressDataEntry[];
 
     //Check Secret
     if (
