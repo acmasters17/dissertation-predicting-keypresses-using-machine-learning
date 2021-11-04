@@ -1,19 +1,3 @@
-
-# import aiohttp
-# import asyncio
-
-
-# async def main():
-
-#     async with aiohttp.ClientSession() as session:
-
-#         pokemon_url = 'https://pokeapi.co/api/v2/pokemon/151'
-#         async with session.get(pokemon_url) as resp:
-#             pokemon = await resp.json()
-#             print(pokemon['name'])
-
-# asyncio.run(main())
-
 import requests
 import constants
 import json
@@ -44,7 +28,6 @@ class FirebaseConnector:
     # Adds current keypress to buffer and calls a send
 
     def storeKeypressData(self, keypressData):
-        print("Adding to buffer")
         # Add to buffer
         self.keypressBuffer.append(keypressData)
         # Call send
