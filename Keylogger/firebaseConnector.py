@@ -1,5 +1,5 @@
 import requests
-import constants
+from constants import COMPUTER_ID, SECRET
 import json
 from debouncer import debounce
 
@@ -15,7 +15,7 @@ class FirebaseConnector:
     # Makes a request to firebase to ask if should be storing key press data for the running computer
     def getShouldBeStoringKeypressData(self):
         # Fire Request
-        ploads = {'secret': constants.secret, 'id': constants.computerId}
+        ploads = {'secret': SECRET, 'id': COMPUTER_ID}
         r = requests.post(
             'https://us-central1-dissertation---pkp.cloudfunctions.net/getShouldBeStoringKeyPressData', data=ploads)
 
@@ -45,7 +45,7 @@ class FirebaseConnector:
 
         print("Syncing...")
         # Fire Request with array
-        ploads = {'secret': constants.secret, 'id': constants.computerId,
+        ploads = {'secret': SECRET, 'id': COMPUTER_ID,
                   "newKeypressData": json.dumps(self.keypressBuffer, separators=(',', ':'))}
         r = requests.post(
             'https://us-central1-dissertation---pkp.cloudfunctions.net/storeKeyPressDataForComputerName', data=ploads)
