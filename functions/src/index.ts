@@ -72,8 +72,8 @@ export const getShouldBeStoringKeyPressData = functions.https.onRequest(
   }
 );
 
-//sets the status of the computer to either true or false if we should be collecting data or not
-//if we are turning it true, we are starting a new session so we need a new key press data array
+// Sets the status of the computer to either true or false if we should be collecting data or not
+// If we are turning it true, we are starting a new session so we need a new key press data array
 export const setShouldBeStoringKeyPressData = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
@@ -127,9 +127,9 @@ export const setShouldBeStoringKeyPressData = functions.https.onRequest(
   }
 );
 
-//stores keypress data on document
-//expecting an array of key and timestamp values passed (object array)
-//just merge it on active session keypress array
+// Stores keypress data on document
+// Expecting an array of key and timestamp values passed (object array)
+// Just merge it on active session keypress array
 export const storeKeyPressDataForComputerName = functions.https.onRequest(
   async (request, response) => {
     const firestore = admin.firestore();
@@ -138,12 +138,14 @@ export const storeKeyPressDataForComputerName = functions.https.onRequest(
       id?: string;
       newKeypressData: keyPressDataEntry[];
       secret?: string;
-    } = {newKeypressData: []};
+    } = { newKeypressData: [] };
 
     requestBody.id = request.body.id;
     requestBody.secret = request.body.secret;
 
-    requestBody.newKeypressData = JSON.parse(request.body.newKeypressData) as keyPressDataEntry[];
+    requestBody.newKeypressData = JSON.parse(
+      request.body.newKeypressData
+    ) as keyPressDataEntry[];
 
     //Check Secret
     if (
@@ -180,3 +182,47 @@ export const storeKeyPressDataForComputerName = functions.https.onRequest(
     response.sendStatus(200);
   }
 );
+
+// Retrieves Key press data for a computer id and session and returns the array
+export const retrieveKeyPressDataForComputerNameSession =
+  functions.https.onRequest(async (request, response) => {
+    const firestore = admin.firestore();
+
+    const requestBody: {
+      id?: string;
+      sessionName?: string;
+      secret?: string;
+    } = request.body;
+
+    //Check Secret
+    if (
+      requestBody.secret === undefined ||
+      requestBody.secret !== cloudSecret
+    ) {
+      //unauthorised
+      response.sendStatus(403);
+      return;
+    }
+
+    //Check Request is valid
+    if (!requestBody.id || !requestBody.sessionName) {
+      response.sendStatus(400);
+      return;
+    }
+
+    //get active document
+    const doc = await firestore
+      .collection(collectionName)
+      .doc(requestBody.id)
+      .get();
+
+    //try returning data
+    try {
+      const keyPressData = doc.get(requestBody.sessionName);
+      // send good response
+      response.status(200).send({ keyPressData: keyPressData });
+    } catch (e) {
+      console.error(e);
+      response.sendStatus(500);
+    }
+  });
