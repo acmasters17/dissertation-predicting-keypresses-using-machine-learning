@@ -218,7 +218,7 @@ export const retrieveKeyPressDataForComputerNameSession =
 
     //try returning data
     try {
-      const keyPressData = doc.get(requestBody.sessionName);
+      const keyPressData = doc.get(`keypressData_${requestBody.sessionName}`);
       // send good response
       response.status(200).send({ keyPressData: keyPressData });
     } catch (e) {
