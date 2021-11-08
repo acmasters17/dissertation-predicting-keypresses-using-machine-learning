@@ -37,7 +37,7 @@ class FirebaseConnector:
     # If should be storing data then send keypress array of data to be stored
     # Should be an array of key presses and timestamps
     # [{"keyPressed":"a","timeStamp":"01-11-2021_10:05:09"},{...}]"
-    @debounce(10)
+    @debounce(5)
     def syncKeypressData(self):
         if(self.sessionActive == False):
             print("Session Not Active")

@@ -32,7 +32,7 @@ class myThread (threading.Thread):
         CHANNELS = 1
         RATE = 44100
         RECORD_SECONDS = 5
-        WAVE_OUTPUT_FILENAME = "output.wav"
+        WAVE_OUTPUT_FILENAME = "../LocalRecordings/" + sessionStartTime.strftime("%d-%m-%Y_%H:%M%:%S") + ".wav"
 
         p = pyaudio.PyAudio()
         stream = p.open(format=FORMAT,
@@ -79,8 +79,6 @@ def storeKeyPress(keyString):
         {"keyPressed": keyString, "timeStamp": str(keyPressTime)})
 
 # On Key Press Function
-
-
 def on_press(key):
     try:
         print(key.char + " Pressed")
