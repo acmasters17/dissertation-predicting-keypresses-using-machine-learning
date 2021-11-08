@@ -31,7 +31,7 @@ class myThread (threading.Thread):
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
         RATE = 44100
-        RECORD_SECONDS = 5
+        RECORD_SECONDS = 300
         WAVE_OUTPUT_FILENAME = "../LocalRecordings/" + sessionStartTime.strftime("%d-%m-%Y_%H:%M%:%S") + ".wav"
 
         p = pyaudio.PyAudio()
