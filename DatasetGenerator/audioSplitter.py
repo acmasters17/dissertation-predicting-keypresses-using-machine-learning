@@ -11,10 +11,13 @@ r = requests.post(
 
 # Takes in value like 0:00:05.509253
 # and 0:01:05.761893 and converts it into just seconds
-def convertTimestampIntoFloat(timestamp:str):
+
+
+def convertTimestampIntoFloat(timestamp: str):
     minsAsSeconds = float(timestamp[2:4]) * 60
     seconds = float(timestamp[5:])
     return minsAsSeconds + seconds
+
 
 # Handle request
 if(r.ok):
@@ -26,7 +29,7 @@ if(r.ok):
     # In first demo that is 1 min 28 seconds.053
     offset = 88.053
 
-    # For every keypress timestamp split the meeting audio 
+    # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:
         if(keypress['keyPressed'] == "START SESSION"):
             # Dont do anything as start of session key press
@@ -34,15 +37,21 @@ if(r.ok):
         else:
             print("Creating File for " + keypress['keyPressed'])
             # Get start of key press time
-            keypressStartTime = offset + convertTimestampIntoFloat(keypress['timeStamp'])
+            keypressStartTime = offset + \
+                convertTimestampIntoFloat(keypress['timeStamp'])
             # create transformer
             tfm = sox.Transformer()
             # add a command to trim the audio between keypressStartTime and .5 seconds after
             tfm.trim(keypressStartTime, keypressStartTime + 0.5)
             # create an output file.
             time = datetime.now()
-            tfm.build_file('./InputAudioFiles/Test Bed 1.wav', './SplitAudioFiles/' + keypress['keyPressed'] + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
-    
+            if(keypress['keyPressed'] == "."):
+                tfm.build_file('./InputAudioFiles/Test Bed 1.wav', './SplitAudioFiles/FullStop/' +
+                               'FullStop' + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
+            else:
+                tfm.build_file('./InputAudioFiles/Test Bed 1.wav', './SplitAudioFiles/' +
+                               keypress['keyPressed'] + '/' + keypress['keyPressed'] + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
+
     print("FINISHED SPLITTING")
-else :
+else:
     print("Failed getting keypress data")
