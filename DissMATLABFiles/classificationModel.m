@@ -10,6 +10,10 @@ ads = audioDatastore(location,'IncludeSubFolders',true,...
 % Log out result to check load worked correctly
 countEachLabel(ads)
 
+% wave Scattering
+sn = waveletScattering('SignalLength',2^19,'SamplingFrequency',22050,...
+    'InvarianceScale',0.5);
+
 % Partition Data into 80% 20% split for now
 rng(100)
 ads = shuffle(ads);
@@ -18,6 +22,35 @@ ads = shuffle(ads);
 % Log out splits to check it has worked as intended
 countEachLabel(adsTrain)
 countEachLabel(adsTest)
+
+% Extract Features From Audio Files and store in scTrain
+N = 2^19;
+batchsize = 64;
+scTrain = [];
+useGPU = false; % Set to true to use the GPU
+
+while hasdata(adsTrain)
+    sc = helperbatchscatfeatures(adsTrain,sn,N,batchsize,useGPU);
+    scTrain = cat(3,scTrain,sc);
+end
+
+numTimeWindows = size(scTrain,2);
+
+% Extract Features for test set
+scTest = [];
+
+while hasdata(adsTest)
+   sc = helperbatchscatfeatures(adsTest,sn,N,batchsize,useGPU);
+   scTest = cat(3,scTest,sc); 
+end
+
+% Determine the number of paths in the scattering network and reshape the training and test features into 2-D matrices.
+[~,npaths] = sn.paths();
+Npaths = sum(npaths);
+TrainFeatures = permute(scTrain,[2 3 1]);
+TrainFeatures = reshape(TrainFeatures,[],Npaths);
+TestFeatures = permute(scTest,[2 3 1]);
+TestFeatures = reshape(TestFeatures,[],Npaths);
 
 % % Defining Constants
 % datapoints = 300;
