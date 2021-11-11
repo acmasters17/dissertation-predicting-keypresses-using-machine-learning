@@ -7,95 +7,15 @@ location = fullfile("DatasetGenerator",'SplitAudioFiles');
 ads = audioDatastore(location,'IncludeSubFolders',true,...
     'LabelSource','foldernames');
 
-% Log out result to check load worked correctly
+% % % Log out result to check load worked correctly
 countEachLabel(ads)
 
-% wave Scattering
-sn = waveletScattering('SignalLength',2^19,'SamplingFrequency',22050,...
-    'InvarianceScale',0.5);
-
-% Partition Data into 80% 20% split for now
+% % % % % % Partition Data into 80% 20% split for now
 rng(100)
 ads = shuffle(ads);
 [adsTrain,adsTest] = splitEachLabel(ads,0.8);
 
-% Log out splits to check it has worked as intended
+% % % % % % Log out splits to check it has worked as intended
 countEachLabel(adsTrain)
 countEachLabel(adsTest)
 
-% Extract Features From Audio Files and store in scTrain
-N = 2^19;
-batchsize = 64;
-scTrain = [];
-useGPU = false; % Set to true to use the GPU
-
-while hasdata(adsTrain)
-    sc = helperbatchscatfeatures(adsTrain,sn,N,batchsize,useGPU);
-    scTrain = cat(3,scTrain,sc);
-end
-
-numTimeWindows = size(scTrain,2);
-
-% Extract Features for test set
-scTest = [];
-
-while hasdata(adsTest)
-   sc = helperbatchscatfeatures(adsTest,sn,N,batchsize,useGPU);
-   scTest = cat(3,scTest,sc); 
-end
-
-% Determine the number of paths in the scattering network and reshape the training and test features into 2-D matrices.
-[~,npaths] = sn.paths();
-Npaths = sum(npaths);
-TrainFeatures = permute(scTrain,[2 3 1]);
-TrainFeatures = reshape(TrainFeatures,[],Npaths);
-TestFeatures = permute(scTest,[2 3 1]);
-TestFeatures = reshape(TestFeatures,[],Npaths);
-
-% % Defining Constants
-% datapoints = 300;
-% transformation = [1:1:17, zeros(1,17); zeros(1,17), 1:1:17];
-% 
-% % Load Classification Data
-% load("ionosphere_data_transformed.mat");
-% 
-% % Extract Features
-% classification_x_train=full(ionosphere_data(1:datapoints,1:34));
-% 
-% % Extract Labels
-% classification_y_train=ionosphere_data(1:datapoints,35);
-% 
-% % Train the Model
-% Mdl = fitcsvm(classification_x_train,classification_y_train, 'KernelFunction','linear', 'BoxConstraint',1);
-% 
-% % Transforming 34 dimentional points to 2 dimensions for plotting
-% transformed = zeros(2,datapoints,'double');
-% for i = 1:datapoints
-%     transformed(:,i) = transformation*classification_x_train(i,:)';
-% end
-% 
-% % Transforming 34 dimentional support vectors to 2 dimensions for plotting
-% sv = Mdl.SupportVectors;
-% transformedSV = zeros(2,size(sv,1),'double');
-% for i = 1:size(sv,1)
-%     transformedSV(:,i) = transformation*sv(i,:)';
-% end
-% 
-% % Plotting points and circling support vectors 
-% gscatter(transformed(1,:), transformed(2,:),classification_y_train)
-% hold on
-% plot(transformedSV(1,:),transformedSV(2,:),'ko','MarkerSize',10)
-% title("SVM Visualised")
-% legend('Bad radar returns','Good radar returns','Support Vectors')
-% hold off
-% 
-% % Extract Testing Set
-% classification_x_test=full(ionosphere_data(datapoints+1:end,1:34));
-% classification_y_test=ionosphere_data(datapoints+1:end,35);
-% 
-% % Test Model against Test Data
-% predictedLabels = predict(Mdl,classification_x_test);
-% 
-% % Compare Actual Test Labels with Predicted Labels
-% comparisionMatrix = not(xor(predictedLabels,classification_y_test));
-% accuracy=(sum(comparisionMatrix) / size(comparisionMatrix,1)) * 100
