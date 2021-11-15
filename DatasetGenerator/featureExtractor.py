@@ -1,6 +1,5 @@
 from glob import glob
 import librosa
-import numpy as np
 import csv
 
 # File takes list of audio files, extracts features using librosa and stores them in a csv
