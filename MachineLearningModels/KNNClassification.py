@@ -1,4 +1,3 @@
-# Begin by importing all necessary libraries
 import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
@@ -19,19 +18,19 @@ y = data.iloc[:,20].values
 # You can use it if you'd like to reproduce these specific results.
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.20, random_state=27)
 
-SVC_model = SVC()
-# KNN model requires you to specify n_neighbors,
-# the number of points the classifier will look at to determine what class a new point belongs to
+# Create KNN model
 KNN_model = KNeighborsClassifier(n_neighbors=5)
 
 # Train model
-SVC_model.fit(X_train, y_train)
 KNN_model.fit(X_train, y_train)
 
 # Test Model
-SVC_prediction = SVC_model.predict(X_test)
 KNN_prediction = KNN_model.predict(X_test)
 
-# Accuracy score is the simplest way to evaluate
-print("Accuracy for SVC : " + str(accuracy_score(SVC_prediction, y_test)))
+# Display performance measures of model
+print("-------------------")
+print("KNN Model")
 print("Accuracy for KNN : " + str(accuracy_score(KNN_prediction, y_test)))
+print("Classification Report for KNN with 5 neighbours")
+print(classification_report(KNN_prediction, y_test, zero_division=0))
+print("-------------------")
