@@ -4,16 +4,10 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
-from sklearn.metrics import roc_auc_score
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import label_binarize
-from sklearn.metrics import roc_curve, auc
-from sklearn.multiclass import OneVsRestClassifier
-from itertools import cycle
 from sklearn.svm import SVC
 from Score import Score
 plt.style.use('ggplot')
