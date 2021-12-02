@@ -4,6 +4,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
+from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -20,10 +21,11 @@ plt.style.use('ggplot')
 data = pd.read_csv('../DatasetGenerator/DataSets/test.csv')
 
 class Score:
-    def __init__(self, accuracy, precision,f1):
+    def __init__(self, accuracy, precision,f1,recall):
         self.accuracy = accuracy
         self.precision = precision
         self.f1 = f1
+        self.recall = recall
 
 # Separate features and label
 X = data.iloc[:, :-1].values
@@ -35,7 +37,7 @@ y = data.iloc[:, 20].values
 
 
 # Defining config
-randomState = 42
+randomState = 50
 folds = 10
 
 # Separate data into outer training and testing
@@ -55,6 +57,7 @@ for k in k_range:
     accuracy = 0
     precision = 0
     f1 = 0
+    recall = 0
     # 10 fold cross validation
     for train_index, test_index in sss.split(X_outer_train, y_outer_train):
         # Create KNN model
@@ -69,15 +72,17 @@ for k in k_range:
         precision += precision_score(y_inner_test, prediction,
                                      zero_division=0, average="weighted")
         f1 += f1_score(y_inner_test, prediction, zero_division=0, average="weighted")
+        recall += recall_score(y_inner_test, prediction, zero_division=0, average="weighted")
         
 
     # Computer average scores from cross fold
     accuracy = accuracy / folds
     precision = precision / folds
     f1 = f1 / folds
+    recall = recall / folds
 
     # Add these two the array
-    k_scores.append(Score(accuracy,precision,f1))
+    k_scores.append(Score(accuracy,precision,f1,recall))
 
 # plot accuracy against k
 plt.plot(k_range, list(map(lambda obj: obj.accuracy,k_scores)))
@@ -89,6 +94,12 @@ plt.show()
 plt.plot(k_range, list(map(lambda obj: obj.precision,k_scores)))
 plt.xlabel('Value of K for KNN')
 plt.ylabel('Cross-Validated Precision')
+plt.show()
+
+# plot recall against k
+plt.plot(k_range, list(map(lambda obj: obj.recall,k_scores)))
+plt.xlabel('Value of K for KNN')
+plt.ylabel('Cross-Validated Recall')
 plt.show()
 
 # plot f1 against k
@@ -107,6 +118,10 @@ bestKNNModel = KNeighborsClassifier(n_neighbors=bestK)
 bestKNNModel.fit(X_outer_train,y_outer_train)
 bestPrediction = bestKNNModel.predict(X_outer_test)
 print(classification_report(y_outer_test,bestPrediction,zero_division=0))
+print(accuracy_score(y_outer_test,bestPrediction))
+print(precision_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
+print(recall_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
+print(f1_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
 
 
 # Get AUC score
