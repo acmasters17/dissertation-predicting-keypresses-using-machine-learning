@@ -13,6 +13,7 @@ y, sr = librosa.load(AUDIO_FILE_PATH)
 print("Audio File Loaded")
 
 # Create spectogram
+# Test
 print("Creating Spectogram...")
 spectogram = librosa.feature.melspectrogram(y=y, sr=sr)
 print("Created Spectogram")
