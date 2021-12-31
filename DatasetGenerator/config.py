@@ -1,4 +1,4 @@
-COMPUTER_ID = "testbedone"
-SESSION_NAME = "08-11-2021_09:52:29"
-FILE_NAME = "testrecording.mp3"
+COMPUTER_ID = "testbedtwo"
+SESSION_NAME = "21-12-2021_12:33:13"
+FILE_NAME = "Test Bed 2.wav"
 SECRET = "V3UDaLge29tD3Uddje3FRs3CCAcjzuuQ"

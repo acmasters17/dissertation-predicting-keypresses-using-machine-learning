@@ -1,5 +1,6 @@
 import requests
 import sox
+from DatasetGenerator.config import FILE_NAME
 from config import COMPUTER_ID, SECRET, SESSION_NAME
 from datetime import datetime
 
@@ -27,7 +28,8 @@ if(r.ok):
 
     # Get Offset from local recording to teams recording
     # In first demo that is 1 min 28 seconds.053
-    offset = 88.053
+    # Second is 2 min 43 seconds .682
+    offset = 163.682
 
     # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:
@@ -46,10 +48,10 @@ if(r.ok):
             # create an output file.
             time = datetime.now()
             if(keypress['keyPressed'] == "."):
-                tfm.build_file('./InputAudioFiles/Test Bed 1.wav', './SplitAudioFiles/FullStop/' +
+                tfm.build_file('./InputAudioFiles/' + FILE_NAME, './SplitAudioFiles/FullStop/' +
                                'FullStop' + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
             else:
-                tfm.build_file('./InputAudioFiles/Test Bed 1.wav', './SplitAudioFiles/' +
+                tfm.build_file('./InputAudioFiles/' + FILE_NAME, './SplitAudioFiles/' +
                                keypress['keyPressed'] + '/' + keypress['keyPressed'] + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
 
     print("FINISHED SPLITTING")
