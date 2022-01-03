@@ -56,7 +56,7 @@ if(r.ok):
             if(keypress['keyPressed'] == "."):
                 tfm.build_file('./InputAudioFiles/' + FILE_NAME, './SplitAudioFiles/FullStop/' +
                                'FullStop' + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
-            elif (keypress['keyPressed'] == "!" | keypress['keyPressed'] == "1"):
+            elif (keypress['keyPressed'] == "!" or keypress['keyPressed'] == "1"):
                 tfm.build_file('./InputAudioFiles/' + FILE_NAME, './SplitAudioFiles/1!/' +
                                '1!' + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav')
             else:
