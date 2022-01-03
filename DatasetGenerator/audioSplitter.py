@@ -12,8 +12,6 @@ r = requests.post(
 
 # Takes in value like 0:00:05.509253
 # and 0:01:05.761893 and converts it into just seconds
-
-
 def convertTimestampIntoFloat(timestamp: str):
     minsAsSeconds = float(timestamp[2:4]) * 60
     seconds = float(timestamp[5:])
@@ -27,9 +25,9 @@ if(r.ok):
     print(len(keyPressTimeStampArray))
 
     # Get Offset from local recording to teams recording
-    # In first demo that is 1 min 28 seconds.053
-    # Second is 2 min 43 seconds .682
-    offset = 163.682
+    # In first demo that is 1 min 28 seconds.053 = 88.053
+    # Second is 2 min 43 seconds .682 = 163.682
+    offset = 88.053
 
     # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:
@@ -41,10 +39,19 @@ if(r.ok):
             # Get start of key press time
             keypressStartTime = offset + \
                 convertTimestampIntoFloat(keypress['timeStamp'])
+
+            # window we want is like 0.25 seconds either side of this time so we have a 0.5 second window
+            windowStartTime = keypressStartTime - 0.25
+            windowEndTime  = keypressStartTime + 0.25
+
+            
+
+
             # create transformer
             tfm = sox.Transformer()
-            # add a command to trim the audio between keypressStartTime and .5 seconds after
-            tfm.trim(keypressStartTime, keypressStartTime + 0.5)
+            # add a command to trim the audio and get our window
+            tfm.trim(windowStartTime, windowEndTime)
+            # Now we want to do onset detection / silence trimming so we just get the wave
             # create an output file.
             time = datetime.now()
             if(keypress['keyPressed'] == "."):
