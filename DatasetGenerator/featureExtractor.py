@@ -1,6 +1,7 @@
 from glob import glob
 import librosa
 import csv
+from config import OUTPUTCSVNAME
 
 # File takes list of audio files, extracts features using librosa and stores them in a csv
 
@@ -47,16 +48,14 @@ for filepath in audio_files_paths:
 
 print("Finished Feature Extraction Process")
 print("Saving...")
+
 # Saving the file
-outputCSV = "./DataSets/test.csv"
+outputCSV = "./DataSets/" + OUTPUTCSVNAME
 with open(outputCSV,"+w") as f:
  csv_writer = csv.writer(f, delimiter = ",")
  csv_writer.writerows(outputRows)
 
 print("Saved")
-
-# This gives array of lists of values
-# Can then loop over these arrays and mean average them 
 
 
 
