@@ -28,7 +28,11 @@ for filepath in audio_files_paths:
    print("Extracting Features for " + label)
 
    # Load file into librosa
-   y, sr = librosa.load(filepath)
+   y, sr = librosa.load(filepath, sr=None)
+
+   if(y is None or len(y) == 0):
+      print("Found empty file")
+      continue
 
    # Create an mfcc for file
    mfccForFile = librosa.feature.mfcc(y=y, sr=sr)
