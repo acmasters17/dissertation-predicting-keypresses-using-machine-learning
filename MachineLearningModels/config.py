@@ -1,0 +1,3 @@
+INPUT_CSV_FILENAME = "test.csv"
+RANDOM_STATE = 10
+FOLDS = 10
