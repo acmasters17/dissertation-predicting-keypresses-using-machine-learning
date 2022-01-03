@@ -109,7 +109,7 @@ bestKNNModel.fit(X_outer_train,y_outer_train)
 bestPrediction = bestKNNModel.predict(X_outer_test)
 print(classification_report(y_outer_test,bestPrediction,zero_division=0))
 print("Accuracy: ", accuracy_score(y_outer_test,bestPrediction) * 100, "%")
-print("Precision: ", precision_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
+print("Precision: ", precision_score(y_outer_test,bestPrediction,zero_division=0,average="weighted") * 100, "%")
 print("Recall Score: ", recall_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
 print("F1 Score: ", f1_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
 
