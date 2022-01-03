@@ -1,7 +1,6 @@
 import requests
 import sox
-from DatasetGenerator.config import FILE_NAME
-from config import COMPUTER_ID, SECRET, SESSION_NAME
+from config import COMPUTER_ID, SECRET, SESSION_NAME, FILE_NAME
 from datetime import datetime
 
 print("Retrieving Key Press Data...")
