@@ -41,7 +41,7 @@ if(r.ok):
 
             # window we want is like 0.25 seconds either side of this time so we have a 0.5 second window
             windowStartTime = keypressStartTime - 0.25
-            windowEndTime  = keypressStartTime + 0.25
+            windowEndTime  = keypressStartTime + 0.5
 
             
 
@@ -51,6 +51,10 @@ if(r.ok):
             # add a command to trim the audio and get our window
             tfm.trim(windowStartTime, windowEndTime)
             # Now we want to do onset detection / silence trimming so we just get the wave
+            # Remove Silence from start
+            tfm.silence(1)
+            # Remove Silence from end
+            tfm.silence(-1)
             # create an output file.
             time = datetime.now()
             if(keypress['keyPressed'] == "."):
