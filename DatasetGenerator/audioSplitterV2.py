@@ -29,7 +29,7 @@ chunks = split_on_silence (
     # Use the loaded audio.
     recording, 
     # Specify that a silent chunk must be at least 0.05 seconds or 50 ms long.
-    min_silence_len = 50,
+    min_silence_len = 10,
     # Consider a chunk silent if it's quieter than -48
     silence_thresh = -48
 )
