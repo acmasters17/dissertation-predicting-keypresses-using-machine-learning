@@ -122,7 +122,8 @@ if(r.ok):
         audio_chunk = silence_chunk + chunkToBuild + silence_chunk
             
         # Normalize the entire chunk.
-        normalized_chunk = match_target_amplitude(audio_chunk, -20.0)
+        # normalized_chunk = match_target_amplitude(audio_chunk, -20.0)
+        normalized_chunk = audio_chunk
 
         # Export the audio chunk with new bitrate.
         print("Exporting file for " + mappedKey)
