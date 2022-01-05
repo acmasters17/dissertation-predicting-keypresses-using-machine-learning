@@ -40,6 +40,7 @@ if(r.ok):
 
     keypressArray = keyPressTimeStampArray[1:]
 
+    wasLastWindow2 = False
     # For every keypress timestamp split the meeting audio into windows
     for keypress in keypressArray:
         print("Creating File for " + keypress['keyPressed'])
@@ -91,9 +92,20 @@ if(r.ok):
         # Now depending on chunks
         # Hopefully we just get 1 as one 1 wave in window but unlikely
         print(len(chunks))
+        if(len(chunks) == 0):
+            # All silence? so ignore
+            wasLastWindow2 = False
+            continue
         if(len(chunks) == 1):
             # One wave detected in window so take first wave and build sample file
             chunkToBuild = chunks[0]
+            wasLastWindow2 = False
+        elif(len(chunks) == 2):
+            if wasLastWindow2:
+                chunkToBuild = chunks[1]
+            else:
+                chunkToBuild = chunks[0]
+                wasLastWindow2 = True
         else:
             # multiple chunk waves detected
             # since we take like a window around a timestamp we should take chunk thats in middle of ones found as most likely to be the correct wave
