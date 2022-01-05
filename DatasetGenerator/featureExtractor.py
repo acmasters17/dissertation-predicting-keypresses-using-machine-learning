@@ -25,6 +25,10 @@ for filepath in audio_files_paths:
    stringSliced = filepath.rsplit("/")
    label = stringSliced[2]
 
+   if(label == "Unknown"):
+      # Skip
+      continue
+
    print("Extracting Features for " + label)
 
    # Load file into librosa
