@@ -36,11 +36,12 @@ if(r.ok):
     # Get Offset from local recording to teams recording
     # In first demo that is 1 min 28 seconds.053 = 88.053
     # Second is 2 min 43 seconds .682 = 163.682
-    offset = 88.053
+    offset = 163.682
 
     keypressArray = keyPressTimeStampArray[1:]
 
     wasLastWindow2 = False
+    countSilentFiles = 0
     # For every keypress timestamp split the meeting audio into windows
     for keypress in keypressArray:
         print("Creating File for " + keypress['keyPressed'])
@@ -53,6 +54,8 @@ if(r.ok):
             mappedKey = "1!"
         elif(mappedKey == "\\"):
             mappedKey = "ForwardsSlash"
+        elif(mappedKey == "/"):
+            mappedKey = "?"
         else:
             mappedKey = mappedKey
 
@@ -93,10 +96,10 @@ if(r.ok):
 
         # Now depending on chunks
         # Hopefully we just get 1 as one 1 wave in window but unlikely
-        print(len(chunks))
         if(len(chunks) == 0):
-            # All silence? so ignore
+            # All silence? so ignore but count
             wasLastWindow2 = False
+            countSilentFiles = countSilentFiles + 1
             continue
         if(len(chunks) == 1):
             # One wave detected in window so take first wave and build sample file
@@ -141,6 +144,7 @@ if(r.ok):
         
 
     print("FINISHED SPLITTING")
+    print("Number of silent files:", countSilentFiles)
 else:
     print("Failed getting keypress data")
 
