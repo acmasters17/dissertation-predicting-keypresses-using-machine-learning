@@ -1,9 +1,9 @@
-COMPUTER_ID = "testbedone"
-SESSION_NAME = "08-11-2021_09:52:29"
-FILE_NAME = "Test Bed 1.wav"
-KEYLOGGER_START_OFFSET_IN_MS = 88053
-# COMPUTER_ID = "testbedtwo"
-# SESSION_NAME = "21-12-2021_12:33:13"
-# FILE_NAME = "Test Bed 2.wav"
+# COMPUTER_ID = "testbedone"
+# SESSION_NAME = "08-11-2021_09:52:29"
+# FILE_NAME = "Test Bed 1.wav"
+COMPUTER_ID = "testbedtwo"
+SESSION_NAME = "21-12-2021_12:33:13"
+FILE_NAME = "Test Bed 2.wav"
 SECRET = "V3UDaLge29tD3Uddje3FRs3CCAcjzuuQ"
-OUTPUTCSVNAME = "test_bed_one_v3_non_aplituded.csv"
+OUTPUTCSVNAME = "test_bed_two_v3_non_aplituded.csv"
+# KEYLOGGER_START_OFFSET_IN_MS = 88053
