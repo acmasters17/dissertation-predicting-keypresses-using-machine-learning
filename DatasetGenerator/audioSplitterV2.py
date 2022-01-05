@@ -89,12 +89,12 @@ if(r.ok):
 
 
         # # Normalize the entire chunk.
-        # normalized_chunk = match_target_amplitude(audio_chunk, -20.0)
+        normalized_chunk = match_target_amplitude(audio_chunk, -20.0)
 
         # Export the audio chunk with new bitrate.
         print("Exporting file for " + mappedKey)
         
-        silence_chunk.export(
+        normalized_chunk.export(
             './SplitAudioFiles/' + mappedKey + '/' + mappedKey + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav',
             bitrate = "192k",
             format = "wav"
