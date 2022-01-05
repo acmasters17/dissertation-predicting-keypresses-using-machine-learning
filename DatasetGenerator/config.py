@@ -6,4 +6,4 @@ KEYLOGGER_START_OFFSET_IN_MS = 88053
 # SESSION_NAME = "21-12-2021_12:33:13"
 # FILE_NAME = "Test Bed 2.wav"
 SECRET = "V3UDaLge29tD3Uddje3FRs3CCAcjzuuQ"
-OUTPUTCSVNAME = "test_bed_one_v3.csv"
+OUTPUTCSVNAME = "test_bed_one_v3_non_aplituded.csv"
