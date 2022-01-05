@@ -51,6 +51,8 @@ if(r.ok):
             mappedKey = "FullStop"
         elif(mappedKey == "!" or mappedKey == "1"):
             mappedKey = "1!"
+        elif(mappedKey == "\\"):
+            mappedKey = "ForwardsSlash"
         else:
             mappedKey = mappedKey
 
