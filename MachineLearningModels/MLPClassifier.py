@@ -5,12 +5,10 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.neural_network import MLPClassifier
-from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
-from Score import Score
 from config import INPUT_CSV_FILENAME, RANDOM_STATE, FOLDS
 
 plt.style.use('ggplot')
