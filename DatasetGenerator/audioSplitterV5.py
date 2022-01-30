@@ -47,8 +47,8 @@ if(r.ok):
                 convertTimestampIntoFloat(keypress['timeStamp'])
 
             # window we want is like 0.25 seconds either side of this time so we have a 0.5 second window
-            windowStartTime = keypressStartTime - 0.1
-            windowEndTime = keypressStartTime + 0.4
+            windowStartTime = keypressStartTime
+            windowEndTime = keypressStartTime + 0.5
 
             # create transformer
             tfm = sox.Transformer()
@@ -56,7 +56,7 @@ if(r.ok):
             tfm.trim(windowStartTime, windowEndTime)
             # Now we want to do onset detection / silence trimming so we just get the wave
             # Remove Silence from start
-            # tfm.silence(1)
+            tfm.silence()
             # # Remove Silence from end
             # tfm.silence(-1)
             # create an output file.
