@@ -109,17 +109,9 @@ if(r.ok):
             # One wave detected in window so take first wave and build sample file
             chunkToBuild = chunks[0]
             wasLastWindow2 = False
-        elif(len(chunks) == 2):
-            if wasLastWindow2:
-                chunkToBuild = chunks[1]
-            else:
-                chunkToBuild = chunks[0]
-                wasLastWindow2 = True
         else:
-            # multiple chunk waves detected
-            # since we take like a window around a timestamp we should take chunk thats in middle of ones found as most likely to be the correct wave
-            chunkIndex = len(chunks) // 2
-            chunkToBuild = chunks[chunkIndex]
+            # Higher than one so just toss
+            continue
 
         # Create a silence chunk that's 0.5 seconds (or 500 ms) long for padding.
         silence_chunk = AudioSegment.silent(duration=500)
