@@ -46,7 +46,11 @@ KNNPipe = make_pipeline(StandardScaler(), KNeighborsClassifier())
 LinearPipe = make_pipeline(StandardScaler(), SVC(kernel="linear"))
 PolyPipe = make_pipeline(StandardScaler(), SVC(kernel="poly"))
 RBFPipe = make_pipeline(StandardScaler(), SVC(kernel="rbf"))
-LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression())
+LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression(solver="newton-cg"))
+
+print("\n")
+print("Pipeline Results for " + INPUT_CSV_FILENAME)
+print("\n")
 
 KNNPipe.fit(X_outer_train, y_outer_train)
 print("KNN - ", KNNPipe.score(X_outer_test, y_outer_test))
@@ -61,7 +65,9 @@ RBFPipe.fit(X_outer_train, y_outer_train)
 print("RBF - ", RBFPipe.score(X_outer_test, y_outer_test))
 
 LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
-print("Logisitc - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
+print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
+
+print("\n")
 
 
 

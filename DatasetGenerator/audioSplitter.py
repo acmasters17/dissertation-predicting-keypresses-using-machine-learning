@@ -26,7 +26,7 @@ if(r.ok):
     # Get Offset from local recording to teams recording
     # In first demo that is 1 min 28 seconds.053 = 88.053
     # Second is 2 min 43 seconds .682 = 160.890
-    offset = 160.890
+    offset = 88.053
 
     # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:

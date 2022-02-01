@@ -29,32 +29,14 @@ y = data.iloc[:, 20].values
 # print(y)
 
 categories = np.array(['Q', "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L",
-              "Z", "X", "C", "V", "B", "N", "M", ",", "FullStop", "Space"])
+              "Z", "X", "C", "V", "B", "N", "M", ",", ";", "'", "BackSpace" "FullStop", "Space"])
 
 
 
 
 for i in range(0,len(y)):
-    index = np.where(categories == y[i])[0]
-    if(len(index) == 0):
-        # Unknown
-        y[i] = 5
-        continue
-    elif(index < 10):
-        # Top Row
-        y[i] = 0
-    elif(index >= 10 and index < 19):
-        # Middle Row
-        y[i] = 1
-    elif(index >= 19 and index < 26):
-        # Bottom Row
-        y[i] = 2
-    elif(index >= 26 and index < 28):
-        # fullstop and coma
-        y[i] = 3
-    else:
-        # Space
-        y[i] = 4
+    index = np.where(categories == y[i])[0][0]
+    y[i] = index
 
 
 
