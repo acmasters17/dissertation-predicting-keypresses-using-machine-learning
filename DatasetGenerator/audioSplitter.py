@@ -25,8 +25,8 @@ if(r.ok):
 
     # Get Offset from local recording to teams recording
     # In first demo that is 1 min 28 seconds.053 = 88.053
-    # Second is 2 min 43 seconds .682 = 163.682
-    offset = 88.053
+    # Second is 2 min 43 seconds .682 = 160.890
+    offset = 160.890
 
     # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:
@@ -40,8 +40,8 @@ if(r.ok):
                 convertTimestampIntoFloat(keypress['timeStamp'])
 
             # window we want is like 0.25 seconds either side of this time so we have a 0.5 second window
-            windowStartTime = keypressStartTime - 0.25
-            windowEndTime  = keypressStartTime + 0.5
+            windowStartTime = keypressStartTime
+            windowEndTime  = keypressStartTime + 0.4
 
             
 
@@ -52,9 +52,9 @@ if(r.ok):
             tfm.trim(windowStartTime, windowEndTime)
             # Now we want to do onset detection / silence trimming so we just get the wave
             # Remove Silence from start
-            tfm.silence(1)
+            # tfm.silence(1)
             # Remove Silence from end
-            tfm.silence(-1)
+            # tfm.silence(-1)
             # create an output file.
             time = datetime.now()
             if(keypress['keyPressed'] == "."):
