@@ -1,6 +1,7 @@
 from glob import glob
 import librosa
 import csv
+import re
 from config import OUTPUTCSVNAME
 
 # File takes list of audio files, extracts features using librosa and stores them in a csv
@@ -25,8 +26,10 @@ for filepath in audio_files_paths:
    stringSliced = filepath.rsplit("/")
    label = stringSliced[2]
 
-   if(label == "Unknown"):
-      # Skip
+   # Only extract characters which are letters or , or FullStop or ; or Space or Backspace
+   extractCharacter = re.match("^[A-Z]$",label)
+   if(extractCharacter == None and (label != "," or label != 'FullStop' or label != "Backspace" or label != ";")):
+      # Dont want to extract this character for now
       continue
 
    print("Extracting Features for " + label)

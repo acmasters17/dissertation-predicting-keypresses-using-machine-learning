@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from config import INPUT_CSV_FILENAME, RANDOM_STATE, FOLDS
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 import tensorflow
 from tensorflow.keras.layers import LSTM, Dense, Dropout
@@ -25,15 +26,49 @@ X = data.iloc[:, :-1].values
 # X = np.concatenate([X, X])
 y = data.iloc[:, 20].values
 
+# print(y)
+
+categories = np.array(['Q', "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L",
+              "Z", "X", "C", "V", "B", "N", "M", ",", "FullStop", "Space"])
+
+
+
+
+for i in range(0,len(y)):
+    index = np.where(categories == y[i])[0]
+    if(len(index) == 0):
+        # Unknown
+        y[i] = 5
+        continue
+    elif(index < 10):
+        # Top Row
+        y[i] = 0
+    elif(index >= 10 and index < 19):
+        # Middle Row
+        y[i] = 1
+    elif(index >= 19 and index < 26):
+        # Bottom Row
+        y[i] = 2
+    elif(index >= 26 and index < 28):
+        # fullstop and coma
+        y[i] = 3
+    else:
+        # Space
+        y[i] = 4
+
+
+
+
+y = np.asarray(y).astype('float32')
+
+# print(y)
+
 
 # Separate data into outer training and testing
 X_outer_train, X_outer_test, y_outer_train, y_outer_test = train_test_split(
-    X, y, test_size=0.25, random_state=RANDOM_STATE)
+    X, y, test_size=0.25, shuffle=True)
 
-X_inner_train, X_inner_test, y_inner_train, y_inner_test = train_test_split(
-    X_outer_train, y_outer_train, test_size=0.25, random_state=RANDOM_STATE)
-
-input_shape = (X_inner_train.shape[1],1)
+input_shape = (X_outer_train.shape[1],1)
 model = tensorflow.keras.Sequential()
 model.add(LSTM(128, input_shape=input_shape))
 model.add(Dropout(0.2))
@@ -42,10 +77,12 @@ model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.4))
 model.add(Dense(48, activation='relu'))
 model.add(Dropout(0.4))
-model.add(Dense(24, activation='softmax'))
+model.add(Dense(33, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',
               loss='SparseCategoricalCrossentropy', metrics=['acc'])
-history = model.fit(X_inner_train, y_inner_train, epochs=50, batch_size=72,
-                    validation_data=(X_inner_test, y_inner_test), shuffle=False)
+history = model.fit(X_outer_train, y_outer_train, epochs=50, batch_size=100,
+                    validation_data=(X_outer_test, y_outer_test), shuffle=True)
+
+
 
