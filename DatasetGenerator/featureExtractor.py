@@ -28,7 +28,7 @@ for filepath in audio_files_paths:
 
    # Only extract characters which are letters or , or FullStop or ; or Space or Backspace
    extractCharacter = re.match("^[A-Z]$",label)
-   if(extractCharacter == None and (label != "," or label != 'FullStop' or label != "Backspace" or label != ";")):
+   if(extractCharacter == None and label != "," and label != 'FullStop' and label != "Backspace" and label != ";" and label != "'" and label != "Space"):
       # Dont want to extract this character for now
       continue
 
