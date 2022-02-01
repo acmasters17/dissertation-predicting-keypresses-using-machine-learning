@@ -1,12 +1,5 @@
 import pandas as pd
-from sklearn.metrics import classification_report
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score
-from sklearn.metrics import f1_score
-from sklearn.metrics import recall_score
-from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
 from config import INPUT_CSV_FILENAME, RANDOM_STATE, FOLDS
 import pandas as pd
@@ -29,14 +22,12 @@ y = data.iloc[:, 20].values
 # print(y)
 
 categories = np.array(['Q', "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L",
-              "Z", "X", "C", "V", "B", "N", "M", ",", ";", "'", "BackSpace" "FullStop", "Space"])
-
-
+              "Z", "X", "C", "V", "B", "N", "M", ",", ";", "'", "Backspace", "FullStop", "Space"])
 
 
 for i in range(0,len(y)):
-    index = np.where(categories == y[i])[0][0]
-    y[i] = index
+    index = np.where(categories == y[i])[0]
+    y[i] = index[0]
 
 
 
