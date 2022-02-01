@@ -59,10 +59,10 @@ LinearPipe.fit(X_outer_train, y_outer_train)
 print("Linear SVM - ", LinearPipe.score(X_outer_test, y_outer_test))
 
 PolyPipe.fit(X_outer_train, y_outer_train)
-print("Poly Pipe - ", PolyPipe.score(X_outer_test, y_outer_test))
+print("Poly SVM - ", PolyPipe.score(X_outer_test, y_outer_test))
 
 RBFPipe.fit(X_outer_train, y_outer_train)
-print("RBF - ", RBFPipe.score(X_outer_test, y_outer_test))
+print("RBF SVM - ", RBFPipe.score(X_outer_test, y_outer_test))
 
 LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
 print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
