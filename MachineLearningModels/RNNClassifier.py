@@ -54,7 +54,7 @@ model.add(Dense(33, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',
               loss='SparseCategoricalCrossentropy', metrics=['acc'])
-history = model.fit(X_outer_train, y_outer_train, epochs=50, batch_size=100,
+history = model.fit(X_outer_train, y_outer_train, epochs=100, batch_size=50,
                     validation_data=(X_outer_test, y_outer_test), shuffle=True)
 
 
