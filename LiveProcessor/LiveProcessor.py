@@ -72,8 +72,9 @@ while True:
     wf.writeframes(b''.join(frames))
     wf.close()
 
-    print("Removing Silence")
+    print("Removing Silence and white noise")
     tfm = sox.Transformer()
+    tfm.trim(0.25)
     # Remove Silence
     tfm.silence(0)
     tfm.build_file('./buffer.wav', './silenced_buffer.wav')
