@@ -23,6 +23,14 @@ model = KNeighborsClassifier(n_neighbors=8)
 
 model.fit(X, y)
 
+p = pyaudio.PyAudio()
+info = p.get_host_api_info_by_index(0)
+print(info)
+numdevices = info.get('deviceCount')
+print(numdevices)
+for i in range(0, numdevices):
+        if (p.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+            print ("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
 
 # Start recording and processing
 while True:
@@ -31,7 +39,7 @@ while True:
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 44100
-    RECORD_SECONDS = 5
+    RECORD_SECONDS = 10
     
 
     p = pyaudio.PyAudio()
@@ -40,6 +48,7 @@ while True:
                 channels=CHANNELS,
                 rate=RATE,
                 input=True,
+                input_device_index=0,
                 frames_per_buffer=chunk)
 
 
