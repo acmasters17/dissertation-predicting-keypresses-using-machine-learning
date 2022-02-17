@@ -1,7 +1,10 @@
+import wave
 import matplotlib.pyplot as plt
 import librosa
 import librosa.display
 import numpy as np
+from IPython.display import Audio
+
 
 # Script takes in a specified audio file path and produces a mel-scaled spectrogram
 AUDIO_FILE_PATH = "./silenced_buffer.wav"
@@ -40,3 +43,9 @@ img = librosa.display.specshow(S_dB, x_axis='time',
 fig.colorbar(img, ax=ax[1], format='%+2.0f dB')
 ax[1].set(title="Mel-frequency spectrogram for " + KEPRESS_LABEL)
 plt.show()
+
+D = librosa.stft(y)
+D_harmonic, D_percussive = librosa.decompose.hpss(D)
+y_percussive = librosa.istft(D_percussive, length=len(y))
+Audio(data=y_percussive, rate=sr)
+
