@@ -31,7 +31,7 @@ X_outer_train, X_outer_test, y_outer_train, y_outer_test = train_test_split(X, y
 sss = StratifiedShuffleSplit(n_splits=FOLDS, test_size=0.33, random_state=RANDOM_STATE)
 
 # choose C between 0 and 1
-c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1]
+c_range = [0.05, 0.1, 0.2, 0.5, 1]
 lin_svm_scores = []
 
 

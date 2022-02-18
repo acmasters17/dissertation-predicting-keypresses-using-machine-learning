@@ -7,16 +7,9 @@ from sklearn.metrics import recall_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
-from Score import Score
 from config import INPUT_CSV_FILENAME, RANDOM_STATE, FOLDS
-
-
-
-
-
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -51,6 +44,7 @@ LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression(solv
 print("\n")
 print("Pipeline Results for " + INPUT_CSV_FILENAME)
 print("\n")
+highestPipe = KNNPipe
 
 KNNPipe.fit(X_outer_train, y_outer_train)
 print("KNN - ", KNNPipe.score(X_outer_test, y_outer_test))
@@ -58,16 +52,26 @@ print("KNN - ", KNNPipe.score(X_outer_test, y_outer_test))
 LinearPipe.fit(X_outer_train, y_outer_train)
 print("Linear SVM - ", LinearPipe.score(X_outer_test, y_outer_test))
 
+highestPipe = LinearPipe if LinearPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
+
 PolyPipe.fit(X_outer_train, y_outer_train)
 print("Poly SVM - ", PolyPipe.score(X_outer_test, y_outer_test))
+
+highestPipe = PolyPipe if PolyPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
 
 RBFPipe.fit(X_outer_train, y_outer_train)
 print("RBF SVM - ", RBFPipe.score(X_outer_test, y_outer_test))
 
+highestPipe = RBFPipe if RBFPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
+
 LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
 print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
 
+highestPipe = LogisticRegressionPipe if LogisticRegressionPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
+
 print("\n")
+
+print(highestPipe.get_params(True))
 
 
 
