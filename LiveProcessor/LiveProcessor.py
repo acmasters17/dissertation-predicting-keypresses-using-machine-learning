@@ -48,7 +48,7 @@ while True:
                 channels=CHANNELS,
                 rate=RATE,
                 input=True,
-                input_device_index=0,
+                input_device_index=1,
                 frames_per_buffer=chunk)
 
 
@@ -74,9 +74,7 @@ while True:
 
     print("Removing Silence and white noise")
     tfm = sox.Transformer()
-    tfm.trim(0.25)
-    # Remove Silence
-    tfm.silence(0)
+    tfm.trim(0.3)
     tfm.build_file('./buffer.wav', './silenced_buffer.wav')
     
 
