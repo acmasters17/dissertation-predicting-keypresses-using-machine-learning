@@ -7,13 +7,6 @@ from pydub.silence import split_on_silence
 
 # Motivation for this splitter is a combo of the others
 
-# Define a function to normalize a chunk to a target amplitude.
-
-
-def match_target_amplitude(aChunk, target_dBFS):
-    ''' Normalize given audio chunk '''
-    change_in_dBFS = target_dBFS - aChunk.dBFS
-    return aChunk.apply_gain(change_in_dBFS)
 
 
 print("Retrieving Key Press Data...")

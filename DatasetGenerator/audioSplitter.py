@@ -53,6 +53,7 @@ if(r.ok):
             # Now we want to do onset detection / silence trimming so we just get the wave
             # Remove Silence
             tfm.silence(0)
+            tfm.gain(20)
             # create an output file.
             time = datetime.now()
             if(keypress['keyPressed'] == "."):
