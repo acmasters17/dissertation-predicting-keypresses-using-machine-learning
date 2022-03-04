@@ -52,8 +52,8 @@ if(r.ok):
                 convertTimestampIntoFloat(keypress['timeStamp'])
 
             # window we want is like 0.25 seconds either side of this time so we have a 0.5 second window
-            windowStartTime = keypressStartTime
-            windowEndTime  = keypressStartTime + 0.4
+            windowStartTime = keypressStartTime - 0.1
+            windowEndTime  = keypressStartTime + 0.5
 
             
 
@@ -67,7 +67,7 @@ if(r.ok):
             tfm.build_file('./InputAudioFiles/' + FILE_NAME, './window.wav')
 
             # Run percussive audio splitter
-            y, sr = librosa.load('./InputAudioFiles/window.wav')
+            y, sr = librosa.load('./window.wav')
             D = librosa.stft(y)
             D_harmonic8, D_percussive8 = librosa.decompose.hpss(D, margin=8)
             y_percussive8 = librosa.istft(D_percussive8, length=len(y))
@@ -90,6 +90,8 @@ if(r.ok):
                 audio_chunk.export('./SplitAudioFiles/ForwardsSlash/ForwardsSlash_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav', bitrate = "192k", format = "wav")
             else:
                 audio_chunk.export('./SplitAudioFiles/' + keypress['keyPressed'] + '/' + keypress['keyPressed'] + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav', bitrate = "192k", format = "wav")
+
+            break
 
     print("FINISHED SPLITTING")
 else:
