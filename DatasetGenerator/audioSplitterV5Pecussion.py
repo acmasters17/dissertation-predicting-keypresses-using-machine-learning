@@ -91,8 +91,6 @@ if(r.ok):
             else:
                 audio_chunk.export('./SplitAudioFiles/' + keypress['keyPressed'] + '/' + keypress['keyPressed'] + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav', bitrate = "192k", format = "wav")
 
-            break
-
     print("FINISHED SPLITTING")
 else:
     print("Failed getting keypress data")
