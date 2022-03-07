@@ -73,6 +73,13 @@ print("\n")
 
 print(highestPipe.get_params(True))
 
+model = SVC()
+scaler = StandardScaler()
+X_scaled_train = scaler.fit_transform(X_outer_train,y_outer_train)
+model.fit(X_scaled_train,y_outer_train)
+print(f1_score(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),average="weighted"))
+print(classification_report(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),zero_division=0))
+
 
 
 

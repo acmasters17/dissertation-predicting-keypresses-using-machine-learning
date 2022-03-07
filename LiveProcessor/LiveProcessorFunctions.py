@@ -3,6 +3,7 @@ import numpy as np
 import sox
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
+import soundfile as sf
 
 # Define a function to normalize a chunk to a target amplitude.
 def match_target_amplitude(aChunk, target_dBFS):
@@ -17,7 +18,14 @@ def match_target_amplitude(aChunk, target_dBFS):
 def processAudio(audioFileName):
     tfm = sox.Transformer()
     tfm.trim(0.3)
-    tfm.build_file(audioFileName, './processed_buffer.wav')
+    tfm.gain(20)
+    tfm.build_file(audioFileName, './trimmed_buffer.wav')
+
+    y, _ = librosa.load('./trimmed_buffer.wav')
+    D = librosa.stft(y)
+    _, D_percussive8 = librosa.decompose.hpss(D, margin=8)
+    y_percussive8 = librosa.istft(D_percussive8, length=len(y))
+    sf.write("./processed_buffer.wav",y_percussive8,22050)
 
 
 # Separates the audio into hopefully keypress files
@@ -61,7 +69,7 @@ def separateAudio(audioFileName):
 
 # Given an audio file and a machine learning model
 # features will be extracted and a prediction will be made and this will be returned
-def makePredictionForFile(audioFileName, model):
+def makePredictionForFile(audioFileName, model, scaler):
     # Load file into librosa
     y, sr = librosa.load(audioFileName, sr=22050)
 
@@ -84,7 +92,8 @@ def makePredictionForFile(audioFileName, model):
 
         # We now have an x datapoint so predict
         reshapedDatapoint = np.reshape(datapoint, (1,-1))
-        output = model.predict(reshapedDatapoint)
+        scaledDatapoint = scaler.transform(reshapedDatapoint)
+        output = model.predict(scaledDatapoint)
 
         prediction = output[0]
         if prediction == "Space":

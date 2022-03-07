@@ -1,6 +1,7 @@
 import pandas as pd
 import pyaudio
 import wave
+from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from config import INPUT_CSV_FILENAME, PREDICTION_SESSION_NAME
 from LiveProcessorFunctions import *
@@ -15,9 +16,11 @@ X = data.iloc[:, :-1].values
 y = data.iloc[:, 20].values
 # y = np.concatenate([y, y])
 
-model = SVC(C=0.1,kernel="linear")
+scaler = StandardScaler()
+model = SVC(kernel="rbf")
 
-model.fit(X, y)
+X_scaled_train = scaler.fit_transform(X,y)
+model.fit(X,y)
 
 p = pyaudio.PyAudio()
 info = p.get_host_api_info_by_index(0)
@@ -82,7 +85,7 @@ while True:
     prediction = ""
 
     for i in range(0,numFilesToPredict):
-        character = makePredictionForFile('./tempSplitFiles/' + str(i) + '.wav', model)
+        character = makePredictionForFile('./tempSplitFiles/' + str(i) + '.wav', model, scaler)
 
         # Append character to prediction
         prediction = prediction + character
