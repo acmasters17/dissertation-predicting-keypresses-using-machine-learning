@@ -55,8 +55,6 @@ def separateAudio(audioFileName):
 
         # Add the padding chunk to beginning and end of the entire chunk.
         audio_chunk = silence_chunk + chunk + silence_chunk
-
-        audio_chunk = audio_chunk.apply_gain(20)
         
         audio_chunk.export(
             './tempSplitFiles/' + str(i) + '.wav',
