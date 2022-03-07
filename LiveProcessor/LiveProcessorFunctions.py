@@ -5,12 +5,14 @@ from pydub import AudioSegment
 from pydub.silence import split_on_silence
 import soundfile as sf
 
-# Define a function to normalize a chunk to a target amplitude.
-def match_target_amplitude(aChunk, target_dBFS):
-    ''' Normalize given audio chunk '''
-    change_in_dBFS = target_dBFS - aChunk.dBFS
-    return aChunk.apply_gain(change_in_dBFS)
 
+def split(filepath):
+    sound = AudioSegment.from_wav(filepath)
+    dBFS = sound.dBFS
+    chunks = split_on_silence(sound, min_silence_len = 100,silence_thresh = dBFS)
+
+    print(len(chunks))
+    return chunks
 
 # Perform some audio processing on the file
 # For now this is removing 0.3 seconds from start of file to remove white noise from blackhole implementation
@@ -31,27 +33,13 @@ def processAudio(audioFileName):
 # Separates the audio into hopefully keypress files
 # returns the number of chunks
 def separateAudio(audioFileName):
-    fileToSplit = AudioSegment.from_wav(audioFileName)
-
-    # Split track where the silence is 0.2 seconds or more and get chunks using 
-    # the imported function.
-    chunks = split_on_silence (
-        # Use the loaded audio.
-        fileToSplit, 
-        # Specify that a silent chunk must be at least 0.05 seconds or 50 ms long.
-        min_silence_len = 50,
-        # Consider a chunk silent if it's quieter than -48
-        silence_thresh = -32
-    )
-
-    print("Number of chunks found - ", len(chunks))
-
-    
+    # Run silence extractor
+    chunks  = split(audioFileName)
+    # Save just the first silent chunk
+    silence_chunk = AudioSegment.silent(duration=500)
 
     # Process each chunk and export to a temp file
     for i, chunk in enumerate(chunks):
-        # Create a silence chunk that's 0.5 seconds (or 500 ms) long for padding.
-        silence_chunk = AudioSegment.silent(duration=500)
 
         # Add the padding chunk to beginning and end of the entire chunk.
         audio_chunk = silence_chunk + chunk + silence_chunk
