@@ -4,6 +4,7 @@ import sox
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 import soundfile as sf
+import os
 
 
 def split(filepath):
@@ -97,4 +98,21 @@ def writeStringPredictionToFile(predictionString, textFileName):
     f.write(predictionString)
     f.close()
     print("Finished Writing")
+
+
+# Clean up temp directory
+def cleanUpDirectory(numFiles):
+    print("Cleaning")
+
+    for i in range(0,numFiles):
+        file_path = './tempSplitFiles/' + str(i) + ".wav"
+
+        try:
+            os.remove(file_path)
+        except OSError as e:
+            print("Error: %s : %s" % (file_path, e.strerror))
+
+    print("Finished Clean Up")
+
+
 

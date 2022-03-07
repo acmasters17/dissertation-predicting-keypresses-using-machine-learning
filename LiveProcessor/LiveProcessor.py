@@ -95,7 +95,7 @@ while True:
     print("Finished Predictions now write to file")
     writeStringPredictionToFile(prediction, PREDICTION_SESSION_NAME)
 
-    print("Clean Up")
+    cleanUpDirectory(numFilesToPredict)
     exit(0)
     
     
