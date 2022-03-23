@@ -94,7 +94,24 @@ if(r.ok):
         # Export the audio chunk with new bitrate.
         print("Exporting file for " + mappedKey)
         
-        normalized_chunk.export(
+        if(mappedKey == "."):
+            normalized_chunk.export(
+            './SplitAudioFiles/' + "FullStop" + '/' + "FullStop" + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav',
+            bitrate = "192k",
+            format = "wav"
+        )
+        elif (mappedKey == "!" or mappedKey == "1"):
+            normalized_chunk.export(
+            './SplitAudioFiles/' + "1!" + '/' + "1!" + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav',
+            bitrate = "192k",
+            format = "wav")
+        elif (mappedKey == "\\"):
+            normalized_chunk.export(
+            './SplitAudioFiles/' + "ForwardsSlash" + '/' + "ForwardsSlash" + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav',
+            bitrate = "192k",
+            format = "wav")
+        else:
+            normalized_chunk.export(
             './SplitAudioFiles/' + mappedKey + '/' + mappedKey + '_' + time.strftime("%d-%m-%Y_%H:%M%:%S:%f") + '.wav',
             bitrate = "192k",
             format = "wav"
