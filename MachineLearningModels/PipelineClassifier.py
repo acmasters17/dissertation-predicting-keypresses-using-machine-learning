@@ -35,11 +35,16 @@ y = data.iloc[:, 20].values
 X_outer_train, X_outer_test, y_outer_train, y_outer_test = train_test_split(X, y, test_size=0.33, random_state=RANDOM_STATE)
 
 # Run all models via pipelines
-KNNPipe = make_pipeline(StandardScaler(), KNeighborsClassifier())
-LinearPipe = make_pipeline(StandardScaler(), SVC(kernel="linear"))
-PolyPipe = make_pipeline(StandardScaler(), SVC(kernel="poly"))
-RBFPipe = make_pipeline(StandardScaler(), SVC(kernel="rbf"))
-LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression(solver="newton-cg"))
+# KNNPipe = make_pipeline(StandardScaler(), KNeighborsClassifier())
+# LinearPipe = make_pipeline(StandardScaler(), SVC(kernel="linear"))
+# PolyPipe = make_pipeline(StandardScaler(), SVC(kernel="poly"))
+# RBFPipe = make_pipeline(StandardScaler(), SVC(kernel="rbf"))
+# LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression(solver="newton-cg"))
+KNNPipe = make_pipeline(KNeighborsClassifier())
+LinearPipe = make_pipeline(SVC(kernel="linear"))
+PolyPipe = make_pipeline(SVC(kernel="poly"))
+RBFPipe = make_pipeline(SVC(kernel="rbf"))
+# LogisticRegressionPipe = make_pipeline(LogisticRegression(solver="newton-cg"))
 
 print("\n")
 print("Pipeline Results for " + INPUT_CSV_FILENAME)
@@ -64,21 +69,21 @@ print("RBF SVM - ", RBFPipe.score(X_outer_test, y_outer_test))
 
 highestPipe = RBFPipe if RBFPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
 
-LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
-print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
+# LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
+# print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
 
-highestPipe = LogisticRegressionPipe if LogisticRegressionPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
+# highestPipe = LogisticRegressionPipe if LogisticRegressionPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
 
 print("\n")
 
 print(highestPipe.get_params(True))
 
-model = SVC()
-scaler = StandardScaler()
-X_scaled_train = scaler.fit_transform(X_outer_train,y_outer_train)
-model.fit(X_scaled_train,y_outer_train)
-print(f1_score(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),average="weighted"))
-print(classification_report(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),zero_division=0))
+# model = SVC()
+# scaler = StandardScaler()
+# X_scaled_train = scaler.fit_transform(X_outer_train,y_outer_train)
+# model.fit(X_scaled_train,y_outer_train)
+# print(f1_score(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),average="weighted"))
+# print(classification_report(y_outer_test,model.predict(scaler.fit_transform(X_outer_test)),zero_division=0))
 
 
 
