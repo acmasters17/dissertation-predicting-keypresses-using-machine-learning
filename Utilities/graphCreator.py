@@ -7,7 +7,7 @@ import soundfile as sf
 
 
 # Script takes in a specified audio file path and produces a mel-scaled spectrogram
-AUDIO_FILE_PATH = "../LiveProcessor/tempSplitFiles/0.wav"
+AUDIO_FILE_PATH = "../LiveProcessor/buffer.wav"
 KEPRESS_LABEL = "Buffer File"
 
 # Load specified audio file
