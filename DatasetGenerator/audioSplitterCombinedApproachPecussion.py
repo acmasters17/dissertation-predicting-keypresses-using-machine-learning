@@ -78,7 +78,7 @@ if(r.ok):
             # Save just the first silent chunk
             silence_chunk = AudioSegment.silent(duration=500)
 
-            if len(chunks) == 0:
+            if len(chunks) == 0 or len(chunks) > 1:
                 # skip
                 continue
             # Add the padding chunk to beginning and end of the entire chunk.
