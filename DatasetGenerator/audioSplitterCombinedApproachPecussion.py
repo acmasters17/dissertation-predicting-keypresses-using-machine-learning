@@ -69,7 +69,7 @@ if(r.ok):
             # Run percussive audio splitter
             y, sr = librosa.load('./window.wav')
             D = librosa.stft(y)
-            D_harmonic8, D_percussive8 = librosa.decompose.hpss(D, margin=8)
+            D_harmonic8, D_percussive8 = librosa.decompose.hpss(D)
             y_percussive8 = librosa.istft(D_percussive8, length=len(y))
             sf.write("window8.wav",y_percussive8,22050)
 
