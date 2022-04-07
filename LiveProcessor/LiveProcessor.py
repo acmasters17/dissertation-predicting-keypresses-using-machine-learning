@@ -1,6 +1,8 @@
 import pandas as pd
 import pyaudio
 import wave
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from config import INPUT_CSV_FILENAME, PREDICTION_SESSION_NAME
@@ -14,10 +16,12 @@ data = pd.read_csv('../DatasetGenerator/DataSets/' + INPUT_CSV_FILENAME)
 X = data.iloc[:, :-1].values
 y = data.iloc[:, 20].values
 
-model = SVC(kernel="rbf")
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20,random_state=117)
+model = SVC(kernel="linear")
 scaler = StandardScaler()
-X_scaled_train = scaler.fit_transform(X,y)
-model.fit(X_scaled_train,y)
+X_scaled_train = scaler.fit_transform(X_train,y_train)
+model.fit(X_scaled_train,y_train)
+print(classification_report(y_test,model.predict(scaler.transform(X_test)),zero_division=0))
 
 p = pyaudio.PyAudio()
 info = p.get_host_api_info_by_index(0)
@@ -33,7 +37,7 @@ for i in range(0, numdevices):
 
 # Start recording and processing
 while True:
-    # Record 5 second clips then process them and predict using fully trained model above
+    # Record 10 second clips then process them and predict using fully trained model above
     chunk = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
