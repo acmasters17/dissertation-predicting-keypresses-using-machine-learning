@@ -95,7 +95,7 @@ def makePredictionForFile(audioFileName, model, scaler):
 def writeStringPredictionToFile(predictionString, textFileName):
     print("Writing to File...")
     f = open(textFileName, "a")
-    f.write(predictionString)
+    f.write(predictionString + '\n')
     f.close()
     print("Finished Writing")
 

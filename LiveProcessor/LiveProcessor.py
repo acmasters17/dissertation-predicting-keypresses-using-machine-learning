@@ -1,7 +1,6 @@
 import pandas as pd
 import pyaudio
 import wave
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from config import INPUT_CSV_FILENAME, PREDICTION_SESSION_NAME
@@ -13,16 +12,12 @@ data = pd.read_csv('../DatasetGenerator/DataSets/' + INPUT_CSV_FILENAME)
 
 # Separate features and label
 X = data.iloc[:, :-1].values
-# X = np.concatenate([X, X])
 y = data.iloc[:, 20].values
-# y = np.concatenate([y, y])
 
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20)
 model = SVC(kernel="rbf")
 scaler = StandardScaler()
-X_scaled_train = scaler.fit_transform(X_train,y_train)
-model.fit(X_scaled_train,y_train)
+X_scaled_train = scaler.fit_transform(X,y)
+model.fit(X_scaled_train,y)
 
 p = pyaudio.PyAudio()
 info = p.get_host_api_info_by_index(0)
@@ -96,7 +91,6 @@ while True:
     writeStringPredictionToFile(prediction, PREDICTION_SESSION_NAME)
 
     cleanUpDirectory(numFilesToPredict)
-    exit(0)
     
     
 
