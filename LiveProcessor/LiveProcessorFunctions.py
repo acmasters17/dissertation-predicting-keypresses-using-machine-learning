@@ -22,13 +22,13 @@ def processAudio(audioFileName):
     tfm = sox.Transformer()
     tfm.trim(0.3)
     tfm.gain(20)
-    tfm.build_file(audioFileName, './trimmed_buffer.wav')
+    tfm.build_file(audioFileName, './processed_buffer.wav')
 
-    y, _ = librosa.load('./trimmed_buffer.wav')
-    D = librosa.stft(y)
-    _, D_percussive8 = librosa.decompose.hpss(D, margin=8)
-    y_percussive8 = librosa.istft(D_percussive8, length=len(y))
-    sf.write("./processed_buffer.wav",y_percussive8,22050)
+    # y, _ = librosa.load('./trimmed_buffer.wav')
+    # D = librosa.stft(y)
+    # _, D_percussive8 = librosa.decompose.hpss(D, margin=8)
+    # y_percussive8 = librosa.istft(D_percussive8, length=len(y))
+    # sf.write("./processed_buffer.wav",y_percussive8,22050)
 
 
 # Separates the audio into hopefully keypress files
