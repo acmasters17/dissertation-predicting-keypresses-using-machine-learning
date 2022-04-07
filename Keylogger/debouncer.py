@@ -1,8 +1,7 @@
 from threading import Timer
 
-
+# Debounces a function call
 def debounce(wait):
-    # Decorator for a function that should be debounced e.g the send keypress data function
     def decorator(fn):
         def debounced(*args, **kwargs):
             def call_it():

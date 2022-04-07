@@ -1,5 +1,5 @@
 export const collectionName = "computers_test";
-export const cloudSecret = "V3UDaLge29tD3Uddje3FRs3CCAcjzuuQ";
+export const cloudSecret = "REPLACE_WITH_FIREBASE_SECRET";
 
 export type keyPressDataEntry = {
     keyPressed: string,

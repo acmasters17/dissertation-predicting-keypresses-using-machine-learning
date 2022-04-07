@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from config import INPUT_CSV_FILENAME, RANDOM_STATE, FOLDS
 from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MaxAbsScaler, MinMaxScaler, RobustScaler, StandardScaler
 
 
 
@@ -35,19 +35,19 @@ y = data.iloc[:, 20].values
 X_outer_train, X_outer_test, y_outer_train, y_outer_test = train_test_split(X, y, test_size=0.33, random_state=RANDOM_STATE)
 
 # Run all models via pipelines
-# KNNPipe = make_pipeline(StandardScaler(), KNeighborsClassifier())
-# LinearPipe = make_pipeline(StandardScaler(), SVC(kernel="linear"))
-# PolyPipe = make_pipeline(StandardScaler(), SVC(kernel="poly"))
-# RBFPipe = make_pipeline(StandardScaler(), SVC(kernel="rbf"))
-# LogisticRegressionPipe = make_pipeline(StandardScaler(), LogisticRegression(solver="newton-cg"))
-KNNPipe = make_pipeline(KNeighborsClassifier())
-LinearPipe = make_pipeline(SVC(kernel="linear"))
-PolyPipe = make_pipeline(SVC(kernel="poly"))
-RBFPipe = make_pipeline(SVC(kernel="rbf"))
+KNNPipe = make_pipeline(RobustScaler(), KNeighborsClassifier())
+LinearPipe = make_pipeline(RobustScaler(), SVC(kernel="linear"))
+PolyPipe = make_pipeline(RobustScaler(), SVC(kernel="poly"))
+RBFPipe = make_pipeline(RobustScaler(), SVC(kernel="rbf"))
+LogisticRegressionPipe = make_pipeline(RobustScaler(), LogisticRegression(solver="newton-cg"))
+# KNNPipe = make_pipeline(KNeighborsClassifier())
+# LinearPipe = make_pipeline(SVC(kernel="linear"))
+# PolyPipe = make_pipeline(SVC(kernel="poly"))
+# RBFPipe = make_pipeline(SVC(kernel="rbf"))
 # LogisticRegressionPipe = make_pipeline(LogisticRegression(solver="newton-cg"))
 
 print("\n")
-print("Pipeline Results for " + INPUT_CSV_FILENAME)
+print("Pipeline Results with Robust Scaler for " + INPUT_CSV_FILENAME)
 print("\n")
 highestPipe = KNNPipe
 
@@ -69,10 +69,10 @@ print("RBF SVM - ", RBFPipe.score(X_outer_test, y_outer_test))
 
 highestPipe = RBFPipe if RBFPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
 
-# LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
-# print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
+LogisticRegressionPipe.fit(X_outer_train, y_outer_train)
+print("Logistic Regression with newton-cg solver - ", LogisticRegressionPipe.score(X_outer_test, y_outer_test))
 
-# highestPipe = LogisticRegressionPipe if LogisticRegressionPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
+highestPipe = LogisticRegressionPipe if LogisticRegressionPipe.score(X_outer_test, y_outer_test) > highestPipe.score(X_outer_test, y_outer_test) else highestPipe
 
 print("\n")
 

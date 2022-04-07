@@ -5,7 +5,7 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler, StandardScaler
 from sklearn.svm import SVC, LinearSVC
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
@@ -48,7 +48,7 @@ sss = StratifiedShuffleSplit(n_splits=5, test_size=0.25, random_state=RANDOM_STA
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20)
-model = SVC(kernel="rbf")
+model = SVC(kernel="linear")
 scaler = StandardScaler()
 X_scaled_train = scaler.fit_transform(X_train,y_train)
 model.fit(X_scaled_train,y_train)
