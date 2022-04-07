@@ -117,7 +117,7 @@ def cleanUpDirectory(numFiles):
         os.remove("./buffer.wav")
         os.remove("./processed_buffer.wav")
         os.remove("./silenced_buffer.wav")
-        os.remove("./trimmed_buffer")
+        os.remove("./trimmed_buffer.wav")
     except OSError as e:
         print("Error: %s : %s" % (file_path, e.strerror))
 
