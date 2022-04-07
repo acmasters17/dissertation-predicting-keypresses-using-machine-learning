@@ -102,7 +102,7 @@ def writeStringPredictionToFile(predictionString, textFileName):
 
 # Clean up temp directory
 def cleanUpDirectory(numFiles):
-    print("Cleaning")
+    print("Cleaning Directory")
 
     for i in range(0,numFiles):
         file_path = './tempSplitFiles/' + str(i) + ".wav"
@@ -112,7 +112,18 @@ def cleanUpDirectory(numFiles):
         except OSError as e:
             print("Error: %s : %s" % (file_path, e.strerror))
 
-    print("Finished Clean Up")
+
+    try:
+        os.remove("./buffer.wav")
+        os.remove("./processed_buffer.wav")
+        os.remove("./silenced_buffer.wav")
+        os.remove("./trimmed_buffer")
+    except OSError as e:
+        print("Error: %s : %s" % (file_path, e.strerror))
+
+    print("Finished Clean Up of Directory")
+
+
 
 
 
