@@ -114,37 +114,4 @@ print("Recall Score: ", recall_score(y_outer_test,bestPrediction,zero_division=0
 print("F1 Score: ", f1_score(y_outer_test,bestPrediction,zero_division=0,average="weighted"))
 
 
-# Get AUC score
-# Binarize the output
-# classes = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-#               "T", "U", "V", "W", "X", "Y", "Z", "Space", ",", ".", "Backspace", "'", "-", "Enter", "FullStop", "Shift"]
-# y = label_binarize(y, classes=classes)
-# n_classes = len(classes)
-
-# X_outer_train, X_outer_test, y_outer_train, y_outer_test = train_test_split(X, y, test_size=0.25, random_state=RANDOM_STATE)
-
-# classifier = OneVsRestClassifier(SVC(kernel="linear"))
-# y_score = classifier.fit(X_outer_train, y_outer_train).decision_function(X_outer_test)
-
-# fpr = dict()
-# tpr = dict()
-# roc_auc = dict()
-# for i in range(n_classes):
-#     fpr[i], tpr[i], _ = roc_curve(y_outer_test[:, i], y_score[:, i])
-#     roc_auc[i] = auc(fpr[i], tpr[i])
-# colors = cycle(['blue', 'red', 'green'])
-# for i, color in zip(range(n_classes), colors):
-#     plt.plot(fpr[i], tpr[i], lw=1.5,
-#              label='ROC curve of class {0} (area = {1:0.2f})'
-#              ''.format(i, roc_auc[i]))
-# plt.plot([0, 1], [0, 1], 'k--', lw=1.5)
-# plt.xlim([-0.05, 1.0])
-# plt.ylim([0.0, 1.05])
-# plt.xlabel('False Positive Rate')
-# plt.ylabel('True Positive Rate')
-# plt.title('Receiver operating characteristic for multi-class data')
-# plt.legend(loc="lower right")
-# plt.show()
-
-
 
