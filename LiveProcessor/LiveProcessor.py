@@ -16,7 +16,7 @@ data = pd.read_csv('../DatasetGenerator/DataSets/' + INPUT_CSV_FILENAME)
 X = data.iloc[:, :-1].values
 y = data.iloc[:, 20].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20,random_state=330)
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20, random_state=33)
 model = SVC(kernel="linear")
 scaler = StandardScaler()
 X_scaled_train = scaler.fit_transform(X_train,y_train)
@@ -42,7 +42,7 @@ while True:
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 44100
-    RECORD_SECONDS = 3
+    RECORD_SECONDS = 2
     
 
     p = pyaudio.PyAudio()
