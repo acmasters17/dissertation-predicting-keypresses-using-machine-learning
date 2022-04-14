@@ -2,8 +2,6 @@ import requests
 import sox
 from config import COMPUTER_ID, SECRET, SESSION_NAME, FILE_NAME
 from datetime import datetime
-import librosa
-import soundfile as sf
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 

@@ -1,5 +1,4 @@
 import requests
-import sox
 from config import COMPUTER_ID, SECRET, SESSION_NAME, FILE_NAME, KEYLOGGER_START_OFFSET_IN_MS
 from datetime import datetime
 from pydub import AudioSegment
