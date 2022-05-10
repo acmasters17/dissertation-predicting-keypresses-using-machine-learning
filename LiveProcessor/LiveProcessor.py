@@ -21,7 +21,7 @@ model = SVC(kernel="linear")
 scaler = StandardScaler()
 X_scaled_train = scaler.fit_transform(X_train,y_train)
 model.fit(X_scaled_train,y_train)
-print(classification_report(y_test,model.predict(scaler.transform(X_test)),zero_division=0))
+# print(classification_report(y_test,model.predict(scaler.transform(X_test)),zero_division=0))
 
 p = pyaudio.PyAudio()
 info = p.get_host_api_info_by_index(0)
@@ -42,7 +42,7 @@ while True:
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 44100
-    RECORD_SECONDS = 10
+    RECORD_SECONDS = 5
     
 
     p = pyaudio.PyAudio()

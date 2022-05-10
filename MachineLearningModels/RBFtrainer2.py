@@ -48,7 +48,7 @@ sss = StratifiedShuffleSplit(n_splits=5, test_size=0.25, random_state=RANDOM_STA
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.20)
-model = SVC(kernel="linear")
+model = SVC(kernel="rbf")
 scaler = StandardScaler()
 X_scaled_train = scaler.fit_transform(X_train,y_train)
 model.fit(X_scaled_train,y_train)
