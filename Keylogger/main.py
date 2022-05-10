@@ -95,9 +95,7 @@ def on_press(key):
 
 # On Key Release Function
 def on_release(key):
-    if key == keyboard.Key.enter:
-        # Stop Recording
-        # localRecorder.stopLocalRecording()
+    if key == keyboard.Key.esc:
         # Stop listener
         return False
 
