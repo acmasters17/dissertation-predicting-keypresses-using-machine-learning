@@ -1,4 +1,5 @@
 from pynput import keyboard
+from constants import RECORD_TIME
 import firebaseConnector
 from datetime import datetime
 import threading
@@ -19,7 +20,7 @@ print(sessionStartTime.strftime("%d-%m-%Y_%H:%M%:%S:%f"))
 
 
 # Start 5 min recording in new thread
-class myThread (threading.Thread):
+class localRecordingThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
         self.threadID = threadID
@@ -31,7 +32,6 @@ class myThread (threading.Thread):
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
         RATE = 44100
-        RECORD_SECONDS = 1800
         WAVE_OUTPUT_FILENAME = "../LocalRecordings/" + sessionStartTime.strftime("%d-%m-%Y_%H:%M%:%S") + ".wav"
 
         p = pyaudio.PyAudio()
@@ -44,7 +44,7 @@ class myThread (threading.Thread):
 
         frames = []
 
-        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        for i in range(0, int(RATE / CHUNK * RECORD_TIME)):
             data = stream.read(CHUNK)
             frames.append(data)
 
@@ -64,12 +64,10 @@ class myThread (threading.Thread):
 
 
 # Create new threads
-thread1 = myThread(1, "Thread-1", 1)
+thread1 = localRecordingThread(1, "Thread-1", 1)
 thread1.start()
 
 # Stores Key Press and Timestamp
-
-
 def storeKeyPress(keyString):
     keyPressTime = (datetime.now() -
                     sessionStartTime)
@@ -99,7 +97,7 @@ def on_press(key):
 def on_release(key):
     if key == keyboard.Key.enter:
         # Stop Recording
-        localRecorder.stopLocalRecording()
+        # localRecorder.stopLocalRecording()
         # Stop listener
         return False
 
