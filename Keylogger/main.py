@@ -93,15 +93,13 @@ def on_press(key):
         if(format(key) == "Key.backspace"):
             storeKeyPress("Backspace")
 
-        if(format(key) == "Key.enter"):
-            storeKeyPress("Enter")
 
 
 # On Key Release Function
 def on_release(key):
-    if key == keyboard.Key.esc:
+    if key == keyboard.Key.enter:
         # Stop Recording
-        # localRecorder.stopLocalRecording()
+        localRecorder.stopLocalRecording()
         # Stop listener
         return False
 
