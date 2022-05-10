@@ -1,6 +1,6 @@
 import requests
 import sox
-from config import COMPUTER_ID, SECRET, SESSION_NAME, FILE_NAME
+from config import COMPUTER_ID, SECRET, SESSION_NAME, FILE_NAME, KEYLOGGER_START_OFFSET
 from datetime import datetime
 
 print("Retrieving Key Press Data...")
@@ -26,7 +26,7 @@ if(r.ok):
     # Get Offset from local recording to teams recording
     # In first demo that is 1 min 28 seconds.053 = 88.053
     # Second is 2 min 40 seconds .890 = 160.890
-    offset = 160.890
+    offset = KEYLOGGER_START_OFFSET
 
     # For every keypress timestamp split the meeting audio
     for keypress in keyPressTimeStampArray:
