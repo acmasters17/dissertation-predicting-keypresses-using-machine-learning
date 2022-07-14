@@ -1,6 +1,6 @@
 # Dissertation - Predicting Key Presses Using Machine Learning
 
-This is the project repo for psyam22 dissertation - Predicting Key Presses over Video Calls using an Audio Side-Channel Attack and Machine Learning.
+This is the project repo for my dissertation - Predicting Key Presses over Video Calls using an Audio Side-Channel Attack and Machine Learning.
 
 ![animated_gif_of_live_processor](./DocumentationAssets/Live_Processor_In_Action.gif)
 
